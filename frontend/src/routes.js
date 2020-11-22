@@ -1,6 +1,6 @@
 import { BrowserRouter, Switch, Route } from "react-router-dom";
-import Landing from "../src/screens/Landing";
-import OrphanagesMap from "../src/screens/OrphanagesMap";
+import Landing from "../src/screens/Landing/index";
+import OrphanagesMap from "../src/screens/OrphanageMap/index";
 import Orphanage from "../src/screens/Orphanage";
 import CreateOrphanage from "../src/screens/CreateOrphanage";
 

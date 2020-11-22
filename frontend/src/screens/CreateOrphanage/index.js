@@ -1,11 +1,13 @@
-import { useState, ChangeEvent } from "react";
+import { useState, useContext } from "react";
 import { useHistory } from "react-router-dom";
 import { Map, Marker, TileLayer } from "react-leaflet";
-import mapIcon from "../utils/mapIcon";
+import mapIcon from "../../utils/mapIcon";
+import { ThemeContext } from "styled-components";
 import { FiPlus } from "react-icons/fi";
-import "../styles/pages/create-orphanage.css";
-import Sidebar from "../components/Sidebar";
-import api from "../services/api";
+import { Container } from "./styles";
+// import "../../styles/pages/create-orphanage.css";
+import Sidebar from "../../components/Sidebar";
+import api from "../../services/api";
 
 export default function CreateOrphanage() {
   const history = useHistory();
@@ -17,6 +19,8 @@ export default function CreateOrphanage() {
   const [open_on_weekends, setOpenOnWeekends] = useState(true);
   const [images, setImages] = useState([]);
   const [previewImages, setPreviewImages] = useState([]);
+  const { title } = useContext(ThemeContext);
+
   function handleMapClick(LeafletMouseEvent) {
     const { lat, lng } = LeafletMouseEvent.latlng;
     setPosition({
@@ -59,7 +63,7 @@ export default function CreateOrphanage() {
     setPreviewImages(selectedImagesPreview);
   }
   return (
-    <div id="page-create-orphanage">
+    <Container>
       <Sidebar />
       <main>
         <form onSubmit={handleSubmit} className="create-orphanage-form">
@@ -72,9 +76,15 @@ export default function CreateOrphanage() {
               zoom={15}
               onClick={handleMapClick}
             >
-              <TileLayer
-                url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
-              />
+              {title === "dark" ? (
+                <TileLayer
+                  url={`https://api.mapbox.com/styles/v1/mapbox/dark-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                />
+              ) : (
+                <TileLayer
+                  url={`https://api.mapbox.com/styles/v1/mapbox/light-v10/tiles/256/{z}/{x}/{y}@2x?access_token=${process.env.REACT_APP_MAPBOX_TOKEN}`}
+                />
+              )}
               {position.latitude !== 0 && (
                 <Marker
                   interactive={false}
@@ -174,7 +184,7 @@ export default function CreateOrphanage() {
           </button>
         </form>
       </main>
-    </div>
+    </Container>
   );
 }
 
